@@ -365,6 +365,11 @@
             //Escriu les línies ordenades de tornada a l'arxiu original 'alumnes.txt'.
             File.WriteAllLines(FITXER_USUARIS, linies);
         }
+
+        static void Mostrar()
+        {
+
+        }
         //Validacions de dades
         }
 }
