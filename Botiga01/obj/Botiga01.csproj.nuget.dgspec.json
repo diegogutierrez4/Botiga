@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\Botiga01.csproj": {}
+    "D:\\INSTI MA G\\M05\\UF2\\Botiga\\Botiga01\\Botiga01.csproj": {}
   },
   "projects": {
-    "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\Botiga01.csproj": {
+    "D:\\INSTI MA G\\M05\\UF2\\Botiga\\Botiga01\\Botiga01.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\Botiga01.csproj",
+        "projectUniqueName": "D:\\INSTI MA G\\M05\\UF2\\Botiga\\Botiga01\\Botiga01.csproj",
         "projectName": "Botiga01",
-        "projectPath": "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\Botiga01.csproj",
-        "packagesPath": "C:\\Users\\diego\\.nuget\\packages\\",
-        "outputPath": "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\obj\\",
+        "projectPath": "D:\\INSTI MA G\\M05\\UF2\\Botiga\\Botiga01\\Botiga01.csproj",
+        "packagesPath": "C:\\Users\\marcf\\.nuget\\packages\\",
+        "outputPath": "D:\\INSTI MA G\\M05\\UF2\\Botiga\\Botiga01\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\marcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
