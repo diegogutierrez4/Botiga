@@ -7,8 +7,8 @@
             Console.SetWindowSize(44, 28);
 
             string opcio;
-            string[] productesBotiga = new string[10];
-            double[] preusProdutes = new double[10];
+            string[] productesBotiga = new string[2];
+            double[] preusProdutes = new double[2];
             int nProductes = 0;
 
             Menu();
@@ -38,15 +38,19 @@
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t    AFEGIR PRODUCTE\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        AfegirProducte(productesBotiga, preusProductes, ref nProductes);
+                        AfegirProducte(ref productesBotiga, ref preusProductes, ref nProductes);
                         break;
                     case "2":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MOSTRAR PRODUCTES\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       AMPLIAR BOTIGA\n");
                         Console.ForegroundColor = ConsoleColor.White;
+
+                        AmpliarBotiga(ref productesBotiga, ref preusProductes);
                         break;
                     case "3":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR USUARI\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR PREU\n");
                         Console.ForegroundColor = ConsoleColor.White;
+
+                        ModificarPreu(ref productesBotiga, ref preusProductes);
                         break;
                     case "4":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       ELIMINAR USUARI\n");
@@ -73,7 +77,6 @@
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
                 }
-
                 //Crida al mètode 'BarraDeCarrega' per obrir la barra de càrrega que s'executará després de resoldre un problema.
                 BarraDeCarrega();
 
@@ -102,12 +105,28 @@
             Console.Clear();
         }
         //Opció 1:
-        static void AfegirProducte(string[] productesBotiga, double[] preusProductes, ref int nProductes)
+        static void AfegirProducte(ref string[] productesBotiga, ref double[] preusProductes, ref int nProductes)
         {
-            if (nProductes > productesBotiga.Length)
+            if (nProductes >= productesBotiga.Length)
             {
-                Console.WriteLine("NAO NAO");
-                Menu();
+                Console.WriteLine("La mida de la botiga permet " + productesBotiga.Length + " productes.");
+                Console.Write("Vols ampliar la botiga? (s/n) ");
+                char respostaAmpliarBotiga = Convert.ToChar(Console.ReadLine());
+
+                if (respostaAmpliarBotiga == 's' || respostaAmpliarBotiga == 'S')
+                {
+                    AmpliarBotiga(ref productesBotiga, ref preusProductes);
+                    Console.Clear();
+                    Menu();
+                }
+                else if (respostaAmpliarBotiga == 'n' || respostaAmpliarBotiga == 'N')
+                {
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Menu();
+                }
+                else
+                    Console.WriteLine("Resposta no vàlida!");
             }
             else
             {
@@ -124,68 +143,49 @@
             }
         }
         //Opció 2:
+        static void AmpliarBotiga(ref string[] productesBotiga, ref double[] preusProductes)
+        {
+            Console.WriteLine("Mida actual de la botiga: " + productesBotiga.Length + " productes");
+            Console.Write("Ingresa la nova mida: ");
+            int nouSizeBotiga = Convert.ToInt32(Console.ReadLine());
+
+            Array.Resize(ref productesBotiga, nouSizeBotiga);
+            Array.Resize(ref preusProductes, nouSizeBotiga);
+
+            Console.WriteLine("Nova mida de la botiga: " + productesBotiga.Length + " productes.");
+        }
+        //Opció 3:
+        static void ModificarPreu(ref string[] productesBotiga, ref double[] preusProductes)
+        {
+            Console.WriteLine("Nom del producte per modificar el preu: ");
+            string producteModificar = Console.ReadLine();
+
+            for (int i = 0; i < productesBotiga.Length; i++)
+            {
+                if (productesBotiga[i] == producteModificar)
+                {
+                    Console.WriteLine("Nou preu: ");
+                    double nouPreu = Convert.ToDouble(Console.ReadLine());
+                    preusProductes[i] = nouPreu;
+
+                    Console.WriteLine($"S'ha modificat el preu de {producteModificar} a {nouPreu}$.");
+                }
+            }
+        }
+        //Opció 4:
+        static void ModificarProduce(ref string[] productesBotiga, ref double[] preusProductes)
+        {
+
+        }
         static void MostrarProductes(string[] productesBotiga, double[] preusProductes, int nProductes)
         {
             for (int i = 0; i < nProductes; i++)
             {
-                Console.WriteLine(productesBotiga[i] + " - " + preusProductes[i] + "$");
+                Console.WriteLine("Nom producte:" + productesBotiga[i]);
+                Console.WriteLine("Preu producte: " + preusProductes[i] + "$" + "\n");
             }
-        }
-        static void MostrarDades(string linia)
-        {
-            //Nom
-            string nom = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("\n     Nom: " + nom);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //Cognom
-            string cognom = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     Cognom: " + cognom);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //DNI
-            string dni = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     DNI: " + dni);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //Telefon
-            string telefon = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     Telèfon: " + telefon);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //dataNaixement
-            string dataNaixement = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     Data de naixement: " + dataNaixement);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //Correu
-            Console.WriteLine("     Correu: " + linia);
-        }
-
-        static void MostrarAgenda(string FITXER_USUARIS)
-        {
-            OrdenarAgenda(FITXER_USUARIS);
-
-            using (var arxiuR = new StreamReader(FITXER_USUARIS))
-            {
-                string linia;
-
-                while ((linia = arxiuR.ReadLine()) != null)
-                {
-                    //Nom
-                    string nom = linia.Substring(0, linia.IndexOf(";"));
-                    linia = linia.Substring(linia.IndexOf(";") + 1);
-
-                    //Cognom
-                    string cognom = linia.Substring(0, linia.IndexOf(";"));
-                    linia = linia.Substring(linia.IndexOf(";") + 1);
-
-                    //Telefon
-                    string telefon = linia.Substring(linia.IndexOf(";") + 1).Substring(0, linia.IndexOf(";"));
-
-                    Console.WriteLine($"\n  Nom: {nom} {cognom} - Telèfon: {telefon}");
-                }
-            }
+            Console.WriteLine("Productes totals: " + nProductes);
+            Console.WriteLine("Encara podem afegir: " + (preusProductes.Length - nProductes) + " productes.");
         }
         //Opció 6:
         static void OrdenarAgenda(string FITXER_USUARIS)
@@ -209,6 +209,7 @@
             //Escriu les línies ordenades de tornada a l'arxiu original 'alumnes.txt'.
             File.WriteAllLines(FITXER_USUARIS, linies);
         }
-        //Validacions de dades
     }
 }
+
+
