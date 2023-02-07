@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\Botiga01.csproj",
+      "projectUniqueName": "C:\\DAW1\\Programació\\UF2\\Exercicis\\Botiga\\Botiga01\\Botiga01.csproj",
       "projectName": "Botiga01",
-      "projectPath": "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\Botiga01.csproj",
+      "projectPath": "C:\\DAW1\\Programació\\UF2\\Exercicis\\Botiga\\Botiga01\\Botiga01.csproj",
       "packagesPath": "C:\\Users\\diego\\.nuget\\packages\\",
-      "outputPath": "C:\\DAW1\\Programació\\Exercicis\\Botiga_DGutierrez\\Botiga01\\obj\\",
+      "outputPath": "C:\\DAW1\\Programació\\UF2\\Exercicis\\Botiga\\Botiga01\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\diego\\AppData\\Roaming\\NuGet\\NuGet.Config",

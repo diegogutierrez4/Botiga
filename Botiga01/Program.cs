@@ -1,4 +1,4 @@
-﻿ namespace Botiga01
+﻿namespace Botiga01
 {
     internal class Program
     {
@@ -7,8 +7,8 @@
             Console.SetWindowSize(44, 28);
 
             string opcio;
-            string[] productesBotiga = new string[10];
-            double[] preusProdutes = new double[10];
+            string[] productesBotiga = new string[2];
+            double[] preusProdutes = new double[2];
             int nProductes = 0;
 
             Menu();
@@ -38,11 +38,13 @@
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t    AFEGIR PRODUCTE\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        AfegirProducte(productesBotiga, preusProductes,ref nProductes);
+                        AfegirProducte(ref productesBotiga, ref preusProductes, ref nProductes);
                         break;
                     case "2":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       RECUPERAR USUARI\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       AMPLIAR BOTIGA\n");
                         Console.ForegroundColor = ConsoleColor.White;
+
+                        AmpliarBotiga(ref productesBotiga, ref preusProductes);
                         break;
                     case "3":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR USUARI\n");
@@ -60,9 +62,10 @@
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
                     case "7":
-                        //Console.WriteLine("\n\n\t        ORDENAR AGENDA\n");
-                        //Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("\n\tAgenda ordenada correctament!");
-                        //Console.ForegroundColor = ConsoleColor.White;
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MOSTRAR PRODUCTES\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        MostrarProductes(productesBotiga, preusProductes, nProductes);
                         break;
                     case "q":
                         Environment.Exit(0);
@@ -72,7 +75,6 @@
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
                 }
-
                 //Crida al mètode 'BarraDeCarrega' per obrir la barra de càrrega que s'executará després de resoldre un problema.
                 BarraDeCarrega();
 
@@ -101,12 +103,28 @@
             Console.Clear();
         }
         //Opció 1:
-        static void AfegirProducte(string[] productesBotiga, double[] preusProductes,ref int nProductes)
+        static void AfegirProducte(ref string[] productesBotiga, ref double[] preusProductes, ref int nProductes)
         {
-            if (nProductes > productesBotiga.Length)
+            if (nProductes >= productesBotiga.Length)
             {
-                Console.WriteLine("NAO NAO");
-                Menu();
+                Console.WriteLine("La mida de la botiga permet " + productesBotiga.Length + " productes.");
+                Console.Write("Vols ampliar la botiga? (s/n) ");
+                char respostaAmpliarBotiga = Convert.ToChar(Console.ReadLine());
+
+                if (respostaAmpliarBotiga == 's' || respostaAmpliarBotiga == 'S')
+                {
+                    AmpliarBotiga(ref productesBotiga, ref preusProductes);
+                    Console.Clear();
+                    Menu();
+                }
+                else if (respostaAmpliarBotiga == 'n' || respostaAmpliarBotiga == 'N')
+                {
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Menu();
+                }
+                else
+                    Console.WriteLine("Resposta no vàlida!");
             }
             else
             {
@@ -123,48 +141,23 @@
             }
         }
         //Opció 2:
-        static string RecuperarUsuari(string FITXER_USUARIS)
+        static void AmpliarBotiga(ref string[] productesBotiga, ref double[] preusProductes)
         {
-            Console.Write("\n\t  Nom de l'usuari: ");
-            string nomRecuperar = Console.ReadLine();
+            Console.WriteLine("Mida actual de la botiga: " + productesBotiga.Length + " productes");
+            Console.Write("Ingresa la nova mida: ");
+            int nouSizeBotiga = Convert.ToInt32(Console.ReadLine());
 
-            StreamReader arxiuR = new StreamReader(FITXER_USUARIS);
-            string linia = arxiuR.ReadLine();
+            Array.Resize(ref productesBotiga, nouSizeBotiga);
+            Array.Resize(ref preusProductes, nouSizeBotiga);
 
-            bool usuariTrobat = false;
-
-            while (linia != null && usuariTrobat == false)
+            Console.WriteLine("Nova mida de la botiga: " + productesBotiga.Length + " productes.");
+        }
+        static void MostrarProductes(string[] productesBotiga, double[] preusProductes, int nProductes)
+        {
+            for (int i = 0; i < nProductes; i++)
             {
-                if (nomRecuperar == linia.Substring(0, linia.IndexOf(";")))
-                {
-                    usuariTrobat = true;
-                    MostrarDades(linia);
-                }
-                linia = arxiuR.ReadLine();
+                Console.WriteLine(productesBotiga[i] + " - " + preusProductes[i] + "$");
             }
-
-            if (!usuariTrobat)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"\n      No existeix cap usuari '{nomRecuperar}'.");
-                Console.ForegroundColor = ConsoleColor.White;
-
-                Console.Write("\tTornar a provar? (s/n): ");
-                string resposta = Console.ReadLine();
-
-                while (resposta != "n" && resposta != "s")
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("\n\t     Opció no vàlida.");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("\tTornar a provar? (s/n): ");
-                    resposta = Console.ReadLine();
-                }
-                if (resposta == "s")
-                {
-                    RecuperarUsuari(FITXER_USUARIS);
-                }
-            }
-            arxiuR.Close();
-            return linia;
         }
         static void MostrarDades(string linia)
         {
@@ -196,128 +189,7 @@
             //Correu
             Console.WriteLine("     Correu: " + linia);
         }
-        //Opció 3:
-        //static void ModificarUsuari(string FITXER_USUARIS)
-        //{
-        //    string liniaUsuariModificar = RecuperarUsuari(FITXER_USUARIS);
 
-        //    Console.Write("\n  Dada a modificar ('q' per sortir): ");
-        //    string dadaModificar = Console.ReadLine().ToLower();
-
-        //    //Si la línia és diferent de la que volem eliminar l'escriu a l'arxiu temporal. En canvi, si és igual, la guarda i la modifica.
-        //    using (var arxiuR = new StreamReader(FITXER_USUARIS))
-        //    using (var arxiuW = new StreamWriter("arxiuTemp.txt"))
-        //    {
-        //        string linia = arxiuR.ReadLine();
-
-        //        while (linia != null)
-        //        {
-        //            if (linia == liniaUsuariModificar)
-        //            {
-        //                Console.Write($"\n\t     Nou '{dadaModificar}': ");
-        //                switch (dadaModificar)
-        //                {
-        //                    case "nom":
-        //                        string nouNom = ValidarNomCognom(Console.ReadLine());
-
-        //                        linia = linia.Replace(linia.Substring(0, linia.IndexOf(";")), nouNom);
-        //                        break;
-        //                    case "cognom":
-        //                        string nouCognom = ValidarNomCognom(Console.ReadLine());
-
-        //                        int iniciCognom = linia.IndexOf(";") + 1;
-        //                        int finalCognom = linia.IndexOf(";", iniciCognom);
-        //                        string cognom = linia.Substring(iniciCognom, finalCognom - iniciCognom);
-        //                        linia = linia.Replace(cognom, nouCognom);
-        //                        break;
-        //                    case "dni":
-        //                        string nouDni = ValidarDNI(Console.ReadLine());
-
-        //                        int iniciDNI = linia.IndexOf(";", linia.IndexOf(";") + 1) + 1;
-        //                        int finalDNI = linia.IndexOf(";", iniciDNI);
-        //                        string dni = linia.Substring(iniciDNI, finalDNI - iniciDNI);
-        //                        linia = linia.Replace(dni, nouDni);
-        //                        break;
-        //                    case "telefon":
-        //                        string nouTelefon = ValidarTelefon(Console.ReadLine());
-
-        //                        int iniciTelefon = linia.LastIndexOf(";") + 1;
-        //                        int longitudTelefon = linia.Length - iniciTelefon;
-        //                        string telefon = linia.Substring(iniciTelefon, longitudTelefon);
-        //                        linia = linia.Replace(telefon, nouTelefon);
-        //                        break;
-        //                    case "data":
-        //                        string nouData = Console.ReadLine();
-        //                        DateTime dataN;
-
-        //                        while (!DateTime.TryParse(nouData, out dataN))
-        //                        {
-        //                            Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("Data no vàlida!");
-        //                            Console.ForegroundColor = ConsoleColor.White; Console.WriteLine("Torna a provar: ");
-        //                            nouData = Console.ReadLine();
-        //                        }
-        //                        //Convertirm la data en format (dd/mm/aaaa).
-        //                        nouData = dataN.ToString("d");
-
-        //                        string data = linia.Substring(linia.LastIndexOf(";") + 1);
-        //                        linia = linia.Replace(data, nouData);
-        //                        break;
-        //                    case "correu":
-        //                        string nouCorreu = ValidarCorreu(Console.ReadLine());
-
-        //                        int finalCorreu = linia.LastIndexOf(";");
-        //                        int iniciCorreu = linia.LastIndexOf(";", finalCorreu - 1) + 1;
-        //                        string correu = linia.Substring(iniciCorreu, finalCorreu - iniciCorreu);
-        //                        linia = linia.Replace(correu, nouCorreu);
-        //                        break;
-        //                    case "q":
-        //                        Menu();
-        //                        break;
-        //                    default:
-        //                        Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("Dada no vàlida!");
-        //                        Console.ForegroundColor = ConsoleColor.White;
-        //                        break;
-        //                }
-        //                arxiuW.WriteLine(linia);
-        //            }
-        //            else
-        //                arxiuW.WriteLine(linia);
-        //            linia = arxiuR.ReadLine();
-        //        }
-        //    }
-        //    //Elimina l'arxiu original.
-        //    File.Delete(FITXER_USUARIS);
-
-        //    //Mou l'arxiu amb l'usuari esborrat a un arxiu igual que l'original.
-        //    File.Move("arxiuTemp.txt", FITXER_USUARIS);
-        //}
-        //Opció 4:
-        static void EliminarUsuari(string FITXER_USUARIS)
-        {
-            string liniaEliminar = RecuperarUsuari(FITXER_USUARIS);
-
-            //Si la línia és diferent de la que volem eliminar l'escriu a l'arxiu temporal. En canvi, si és igual, no l'escriu, i per tant l'esborra.
-            using (var arxiuR = new StreamReader(FITXER_USUARIS))
-            using (var arxiuW = new StreamWriter("arxiuTemp.txt"))
-            {
-                string linia;
-
-                while ((linia = arxiuR.ReadLine()) != null)
-                {
-                    if (linia != liniaEliminar)
-                    {
-                        arxiuW.WriteLine(linia);
-                    }
-                }
-            }
-            //Elimina l'arxiu original.
-            File.Delete(FITXER_USUARIS);
-
-            //Mou l'arxiu amb l'usuari esborrat a un arxiu igual que l'original.
-            File.Move("arxiuTemp.txt", FITXER_USUARIS);
-
-        }
-        //Opció 5:
         static void MostrarAgenda(string FITXER_USUARIS)
         {
             OrdenarAgenda(FITXER_USUARIS);
@@ -366,5 +238,5 @@
             File.WriteAllLines(FITXER_USUARIS, linies);
         }
         //Validacions de dades
-        }
+    }
 }
