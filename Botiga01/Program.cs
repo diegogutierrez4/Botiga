@@ -47,8 +47,10 @@
                         AmpliarBotiga(ref productesBotiga, ref preusProductes);
                         break;
                     case "3":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR USUARI\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR PREU\n");
                         Console.ForegroundColor = ConsoleColor.White;
+
+                        ModificarPreu(ref productesBotiga, ref preusProductes);
                         break;
                     case "4":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       ELIMINAR USUARI\n");
@@ -152,67 +154,29 @@
 
             Console.WriteLine("Nova mida de la botiga: " + productesBotiga.Length + " productes.");
         }
+        //Opció 3:
+        static void ModificarPreu(ref string[] productesBotiga, ref double[] preusProductes)
+        {
+            Console.WriteLine("Nom del producte per modificar el preu: ");
+            string producteModificar = Console.ReadLine();
+
+            for (int i = 0; i < productesBotiga.Length; i++)
+            {
+                if (productesBotiga[i] == producteModificar)
+                {
+                    Console.WriteLine("Nou preu: ");
+                    double nouPreu = Convert.ToDouble(Console.ReadLine());
+                    preusProductes[i] = nouPreu;
+
+                    Console.WriteLine($"S'ha modificat el preu de {producteModificar} a {nouPreu}$.");
+                }
+            }
+        }
         static void MostrarProductes(string[] productesBotiga, double[] preusProductes, int nProductes)
         {
             for (int i = 0; i < nProductes; i++)
             {
                 Console.WriteLine(productesBotiga[i] + " - " + preusProductes[i] + "$");
-            }
-        }
-        static void MostrarDades(string linia)
-        {
-            //Nom
-            string nom = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("\n     Nom: " + nom);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //Cognom
-            string cognom = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     Cognom: " + cognom);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //DNI
-            string dni = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     DNI: " + dni);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //Telefon
-            string telefon = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     Telèfon: " + telefon);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //dataNaixement
-            string dataNaixement = linia.Substring(0, linia.IndexOf(";"));
-            Console.WriteLine("     Data de naixement: " + dataNaixement);
-            linia = linia.Substring(linia.IndexOf(";") + 1);
-
-            //Correu
-            Console.WriteLine("     Correu: " + linia);
-        }
-
-        static void MostrarAgenda(string FITXER_USUARIS)
-        {
-            OrdenarAgenda(FITXER_USUARIS);
-
-            using (var arxiuR = new StreamReader(FITXER_USUARIS))
-            {
-                string linia;
-
-                while ((linia = arxiuR.ReadLine()) != null)
-                {
-                    //Nom
-                    string nom = linia.Substring(0, linia.IndexOf(";"));
-                    linia = linia.Substring(linia.IndexOf(";") + 1);
-
-                    //Cognom
-                    string cognom = linia.Substring(0, linia.IndexOf(";"));
-                    linia = linia.Substring(linia.IndexOf(";") + 1);
-
-                    //Telefon
-                    string telefon = linia.Substring(linia.IndexOf(";") + 1).Substring(0, linia.IndexOf(";"));
-
-                    Console.WriteLine($"\n  Nom: {nom} {cognom} - Telèfon: {telefon}");
-                }
             }
         }
         //Opció 6:
@@ -237,6 +201,5 @@
             //Escriu les línies ordenades de tornada a l'arxiu original 'alumnes.txt'.
             File.WriteAllLines(FITXER_USUARIS, linies);
         }
-        //Validacions de dades
     }
 }
