@@ -53,15 +53,20 @@
                         ModificarPreu(ref productesBotiga, ref preusProductes);
                         break;
                     case "4":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       ELIMINAR USUARI\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR PRODUCTE\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        ModificarProducte(ref productesBotiga);
                         break;
                     case "5":
                         Console.WriteLine("\n\n\t       MOSTRAR AGENDA\n");
                         break;
                     case "6":
-                        Console.WriteLine("\n\n\t        ORDENAR AGENDA\n");
-                        Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("\n\tAgenda ordenada correctament!");
+                        Console.WriteLine("\n\n\t        ORDENAR PREUS\n");
+                        Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("\n\tPreus ordenats correctament!");
                         Console.ForegroundColor = ConsoleColor.White;
+
+                        OrdenaPreus(preusProductes, nProductes);
                         break;
                     case "7":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MOSTRAR PRODUCTES\n");
@@ -173,20 +178,35 @@
             }
         }
         //Opció 4:
-        static void ModificarProduce(ref string[] productesBotiga, ref double[] preusProductes)
+        static void ModificarProducte(ref string[] productesBotiga)
         {
+            Console.WriteLine("Nom del producte a modificar: ");
+            string producteModificar = Console.ReadLine();
 
+            for (int i = 0; i < productesBotiga.Length; i++)
+            {
+                if (productesBotiga[i] == producteModificar)
+                {
+                    Console.WriteLine("Nou nom: ");
+                    string nouNom = Console.ReadLine();
+                    productesBotiga[i] = nouNom;
+
+                    Console.WriteLine($"S'ha modificat el nom de {producteModificar} a {nouNom}.");
+                }
+            }
         }
+        //Opció 7:
         static void MostrarProductes(string[] productesBotiga, double[] preusProductes, int nProductes)
         {
             for (int i = 0; i < nProductes; i++)
             {
-                Console.WriteLine("Nom producte:" + productesBotiga[i]);
+                Console.WriteLine("Nom producte: " + productesBotiga[i]);
                 Console.WriteLine("Preu producte: " + preusProductes[i] + "$" + "\n");
             }
             Console.WriteLine("Productes totals: " + nProductes);
             Console.WriteLine("Encara podem afegir: " + (preusProductes.Length - nProductes) + " productes.");
         }
+
         //Opció 6:
         static void OrdenarAgenda(string FITXER_USUARIS)
         {
@@ -209,7 +229,25 @@
             //Escriu les línies ordenades de tornada a l'arxiu original 'alumnes.txt'.
             File.WriteAllLines(FITXER_USUARIS, linies);
         }
+
+        static void OrdenaPreus(double[] preusProductes, int nProductes)
+        {
+            for(int numVolta = 0; numVolta < nProductes; numVolta++)
+            {
+                for(int i = 0; i < nProductes - 1; i++)
+                {
+                    double aux = preusProductes[i];
+                    preusProductes[i] = preusProductes[i + 1];
+                    preusProductes[i + 1] = aux;
+                }
+            }
+            for(int i = 0; i < nProductes; i++)
+            {
+                Console.WriteLine(preusProductes[i]);
+            }
+        }
     }
 }
+
 
 
