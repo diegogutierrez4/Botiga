@@ -13,3 +13,18 @@ C:\DAW1\Programació\Exercicis\Botiga_DGutierrez\Botiga01\obj\Debug\net6.0\refin
 C:\DAW1\Programació\Exercicis\Botiga_DGutierrez\Botiga01\obj\Debug\net6.0\Botiga01.pdb
 C:\DAW1\Programació\Exercicis\Botiga_DGutierrez\Botiga01\obj\Debug\net6.0\Botiga01.genruntimeconfig.cache
 C:\DAW1\Programació\Exercicis\Botiga_DGutierrez\Botiga01\obj\Debug\net6.0\ref\Botiga01.dll
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\bin\Debug\net6.0\Botiga01.exe
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\bin\Debug\net6.0\Botiga01.deps.json
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\bin\Debug\net6.0\Botiga01.runtimeconfig.json
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\bin\Debug\net6.0\Botiga01.dll
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\bin\Debug\net6.0\Botiga01.pdb
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.csproj.AssemblyReference.cache
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.GeneratedMSBuildEditorConfig.editorconfig
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.AssemblyInfoInputs.cache
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.AssemblyInfo.cs
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.csproj.CoreCompileInputs.cache
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.dll
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\refint\Botiga01.dll
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.pdb
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\Botiga01.genruntimeconfig.cache
+D:\INSTI MA G\M05\UF2\Botiga\Botiga01\obj\Debug\net6.0\ref\Botiga01.dll
