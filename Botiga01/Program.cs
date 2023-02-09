@@ -232,13 +232,23 @@
 
         static void OrdenaPreus(double[] preusProductes, int nProductes)
         {
-            for(int numVolta = 0; numVolta < nProductes; numVolta++)
+            int menor;
+            for(int numVolta = 0; numVolta < nProductes -1; numVolta++)
             {
-                for(int i = 0; i < nProductes - 1; i++)
+                menor = numVolta;
+
+                for(int i = numVolta +1; i < nProductes; i++)
                 {
-                    double aux = preusProductes[i];
-                    preusProductes[i] = preusProductes[i + 1];
-                    preusProductes[i + 1] = aux;
+                    if (preusProductes[menor] > preusProductes[i])
+                    {
+                        menor = i;
+                    }
+                }
+                if(menor != numVolta)
+                {
+                    double aux = preusProductes[menor];
+                    preusProductes[menor] = preusProductes[numVolta];
+                    preusProductes[numVolta] = aux;
                 }
             }
             for(int i = 0; i < nProductes; i++)
@@ -248,6 +258,3 @@
         }
     }
 }
-
-
-
