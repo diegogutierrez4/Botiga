@@ -24,7 +24,7 @@
         {
             Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine("\n\n\n\t\tBOTIGA ALUMNES");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n\n\t1. AFEGIR PRODUCTE.\n\t2. AMPLIAR BOTIGA.\n\t3. MODIFICAR PREU.\n\t4. MODIFICAR PRODUCTE.\n\t5. ORDENAR PRODUCTE.\n\t6. ORDENAR PREUS.\n\t7. MOSTRAR PRODUCTES\n\n\t'Q'. Exit!.");
+            Console.WriteLine("\n\n\t1. AFEGIR PRODUCTE.\n\t2. AMPLIAR BOTIGA.\n\t3. MODIFICAR PREU.\n\t4. MODIFICAR PRODUCTE.\n\t5. ORDENAR PRODUCTE.\n\t6. ORDENAR PREUS.\n\t7. MOSTRAR PRODUCTES\n\n\t'C'. CISTELLA\n\t'Q'. Exit!.");
             Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.Write("\n\n   Introdueix l'opció a realitzar: ");
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -79,6 +79,12 @@
                         Console.ForegroundColor = ConsoleColor.White;
 
                         MostrarProductes(productesBotiga, preusProductes, nProductes);
+                        break;
+                    case "c":
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t\t  CISTELLA\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        Cistella();
                         break;
                     case "q":
                         Environment.Exit(0);
@@ -212,7 +218,7 @@
             }
         }
         //Opció 5:
-        public static void OrdenarProductes(ref string[] productesBotiga, ref double[] preusProductes, ref int nProductes)
+        static void OrdenarProductes(ref string[] productesBotiga, ref double[] preusProductes, ref int nProductes)
         {
             string aux;
             double aux2;
@@ -276,6 +282,12 @@
             }
             Console.WriteLine("Productes totals: " + nProductes);
             Console.WriteLine("Encara podem afegir: " + (preusProductes.Length - nProductes) + " productes.");
+        }
+
+        //CISTELLA
+        static void Cistella()
+        {
+            Console.WriteLine("\n\t  PATATAS");
         }
     }
 }
