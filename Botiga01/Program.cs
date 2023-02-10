@@ -24,7 +24,7 @@
         {
             Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine("\n\n\n\t\tBOTIGA ALUMNES");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n\n\t1. AFEGIR PRODUCTE.\n\t2. AMPLIAR BOTIGA.\n\t3. MODIFICAR PREU.\n\t4. MODIFICAR PRODUCTE.\n\t5. ORDENAR PRODUCTE.\n\t6. ORDENAR PREUS.\n\t7. MOSTRAR PRODUCTES\n\n\t'Q'. Exit!.");
+            Console.WriteLine("\n\n\t1. AFEGIR PRODUCTE.\n\t2. AMPLIAR BOTIGA.\n\t3. MODIFICAR PREU.\n\t4. MODIFICAR PRODUCTE.\n\t5. ORDENAR PRODUCTE.\n\t6. ORDENAR PREUS.\n\t7. MOSTRAR PRODUCTES\n\t8. COMPRAR PRODUCTES\n\n\t'Q'. Exit!.");
             Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.Write("\n\n   Introdueix l'opció a realitzar: ");
             Console.ForegroundColor = ConsoleColor.White;
         }
@@ -44,7 +44,7 @@
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       AMPLIAR BOTIGA\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        AmpliarBotiga(ref productesBotiga, ref preusProductes);
+                        AmpliarBotiga(ref productesBotiga, ref preusProductes, nProductes);
                         break;
                     case "3":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR PREU\n");
@@ -59,13 +59,19 @@
                         ModificarProducte(ref productesBotiga);
                         break;
                     case "5":
-                        Console.WriteLine("\n\n\t       MOSTRAR AGENDA\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t        ORDENAR PRODUCTES\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        OrdenarProductes(ref productesBotiga, ref preusProductes, ref nProductes);
                         break;
                     case "6":
-                        Console.WriteLine("\n\n\t        ORDENAR PREUS\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t        ORDENAR PREUS\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
                         Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("\n\tPreus ordenats correctament!");
                         Console.ForegroundColor = ConsoleColor.White;
 
+                        Console.WriteLine("\nPreus ordenats:\n");
                         OrdenaPreus(preusProductes, nProductes);
                         break;
                     case "7":
@@ -73,6 +79,12 @@
                         Console.ForegroundColor = ConsoleColor.White;
 
                         MostrarProductes(productesBotiga, preusProductes, nProductes);
+                        break;
+                    case "8":
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       COMPRAR PRODUCTES\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        ComprarProducte(productesBotiga, preusProductes, nProductes);
                         break;
                     case "q":
                         Environment.Exit(0);
@@ -82,10 +94,10 @@
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
                 }
-                //Crida al mètode 'BarraDeCarrega' per obrir la barra de càrrega que s'executará després de resoldre un problema.
+                //Crida al mètode 'BarraDeCarrega' per obrir la barra de càrrega que s'executará després de finalitzar una opció.
                 BarraDeCarrega();
 
-                //Tornar al menú
+                //Tornar al menú.
                 Menu();
                 opcio = Console.ReadLine();
                 Console.Clear();
@@ -96,10 +108,10 @@
             Console.Title = "Agenda Alumnes";
             Console.WriteLine("\n\n\t      Carregant menú...");
 
-            for (int a = 1; a < 20; a++)
+            for (int a = 1; a < 13; a++)
             {
                 Console.BackgroundColor = ConsoleColor.Red;
-                Console.Write("     ");
+                Console.Write("        ");
                 Thread.Sleep(400);
                 a++;
             }
@@ -120,7 +132,7 @@
 
                 if (respostaAmpliarBotiga == 's' || respostaAmpliarBotiga == 'S')
                 {
-                    AmpliarBotiga(ref productesBotiga, ref preusProductes);
+                    AmpliarBotiga(ref productesBotiga, ref preusProductes, nProductes);
                     Console.Clear();
                     Menu();
                 }
@@ -137,6 +149,7 @@
             {
                 Console.Write("Nom del producte: ");
                 string producteAfegir = Console.ReadLine();
+                producteAfegir = producteAfegir.Substring(0, 1).ToUpper() + producteAfegir.Substring(1).ToLower();
                 productesBotiga[nProductes] = producteAfegir;
                 Console.WriteLine();
 
@@ -148,51 +161,115 @@
             }
         }
         //Opció 2:
-        static void AmpliarBotiga(ref string[] productesBotiga, ref double[] preusProductes)
+        static void AmpliarBotiga(ref string[] productesBotiga, ref double[] preusProductes, int nProductes)
         {
             Console.WriteLine("Mida actual de la botiga: " + productesBotiga.Length + " productes");
             Console.Write("Ingresa la nova mida: ");
             int nouSizeBotiga = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
 
+            while (nouSizeBotiga < nProductes)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("Mida inferior a la quantitat de productes.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Ingresa la nova mida: ");
+                nouSizeBotiga = Convert.ToInt32(Console.ReadLine());
+            }
             Array.Resize(ref productesBotiga, nouSizeBotiga);
             Array.Resize(ref preusProductes, nouSizeBotiga);
-
             Console.WriteLine("Nova mida de la botiga: " + productesBotiga.Length + " productes.");
         }
         //Opció 3:
         static void ModificarPreu(ref string[] productesBotiga, ref double[] preusProductes)
         {
-            Console.WriteLine("Nom del producte per modificar el preu: ");
+            Console.Write("Nom del producte a modificar: ");
             string producteModificar = Console.ReadLine();
+            producteModificar = producteModificar.Substring(0, 1).ToUpper() + producteModificar.Substring(1).ToLower();
 
             for (int i = 0; i < productesBotiga.Length; i++)
             {
                 if (productesBotiga[i] == producteModificar)
                 {
-                    Console.WriteLine("Nou preu: ");
+                    Console.Write("Nou preu: ");
                     double nouPreu = Convert.ToDouble(Console.ReadLine());
                     preusProductes[i] = nouPreu;
 
-                    Console.WriteLine($"S'ha modificat el preu de {producteModificar} a {nouPreu}$.");
+                    Console.WriteLine($"\nS'ha modificat el preu de '{producteModificar}' a {nouPreu}$.");
                 }
             }
         }
         //Opció 4:
         static void ModificarProducte(ref string[] productesBotiga)
         {
-            Console.WriteLine("Nom del producte a modificar: ");
+            Console.Write("Nom del producte a modificar: ");
             string producteModificar = Console.ReadLine();
+            producteModificar = producteModificar.Substring(0, 1).ToUpper() + producteModificar.Substring(1).ToLower();
 
             for (int i = 0; i < productesBotiga.Length; i++)
             {
                 if (productesBotiga[i] == producteModificar)
                 {
-                    Console.WriteLine("Nou nom: ");
+                    Console.Write("Nou nom: ");
                     string nouNom = Console.ReadLine();
                     productesBotiga[i] = nouNom;
 
-                    Console.WriteLine($"S'ha modificat el nom de {producteModificar} a {nouNom}.");
+                    Console.WriteLine($"\nS'ha modificat el nom de '{producteModificar}' a {nouNom}.");
                 }
+            }
+        }
+        //Opció 5:
+        public static void OrdenarProductes(ref string[] productesBotiga, ref double[] preusProductes, ref int nProductes)
+        {
+            string aux;
+            double aux2;
+
+            for (int i = 1; i < nProductes; i++)
+            {
+                for (int j = 0; j < nProductes - i; j++)
+                {
+                    if (productesBotiga[j].CompareTo(productesBotiga[j + 1]) > 0)
+                    {
+                        aux = productesBotiga[j];
+                        aux2 = preusProductes[j];
+                        preusProductes[j] = preusProductes[j + 1];
+                        productesBotiga[j] = productesBotiga[j + 1];
+                        productesBotiga[j + 1] = aux;
+                        preusProductes[j + 1] = aux2;
+                    }
+                }
+            }
+            Console.WriteLine("\nProductes ordenats:\n");
+
+            for (int i = 0; i < nProductes; i++)
+            {
+                Console.WriteLine($"Nom: {productesBotiga[i]}\tPreu: {preusProductes[i]}$");
+            }
+        }
+        //Opció 6:
+        static void OrdenaPreus(double[] preusProductes, int nProductes)
+        {
+            int menor;
+            for (int numVolta = 0; numVolta < nProductes - 1; numVolta++)
+            {
+                menor = numVolta;
+
+                for (int i = numVolta + 1; i < nProductes; i++)
+                {
+                    if (preusProductes[menor] > preusProductes[i])
+                    {
+                        menor = i;
+                    }
+                }
+                if (menor != numVolta)
+                {
+                    double aux = preusProductes[menor];
+                    preusProductes[menor] = preusProductes[numVolta];
+                    preusProductes[numVolta] = aux;
+                }
+            }
+            for (int i = 0; i < nProductes; i++)
+            {
+                Console.WriteLine("\t· " + preusProductes[i]);
             }
         }
         //Opció 7:
@@ -207,54 +284,15 @@
             Console.WriteLine("Encara podem afegir: " + (preusProductes.Length - nProductes) + " productes.");
         }
 
-        //Opció 6:
-        static void OrdenarAgenda(string FITXER_USUARIS)
+        //Opcio 1C:
+        static void ComprarProducte(string[] productesBotiga, double[] preusProductes, int nProductes)
         {
-            //Llegeix totes les línies de l'arxiu
-            var linies = File.ReadAllLines(FITXER_USUARIS);
-
-            //Ordena les línies alfabèticament
-            for (int i = 0; i < linies.Length - 1; i++)
+            Console.WriteLine("Llistat de productes: " + "\n");
+            for (int i = 0; i < nProductes; i++)
             {
-                for (int j = i + 1; j < linies.Length; j++)
-                {
-                    if (String.Compare(linies[i], linies[j]) > 0)
-                    {
-                        string k = linies[i];
-                        linies[i] = linies[j];
-                        linies[j] = k;
-                    }
-                }
+                Console.WriteLine(productesBotiga[i] + " -> " + preusProductes[i] + "$");
             }
-            //Escriu les línies ordenades de tornada a l'arxiu original 'alumnes.txt'.
-            File.WriteAllLines(FITXER_USUARIS, linies);
-        }
 
-        static void OrdenaPreus(double[] preusProductes, int nProductes)
-        {
-            int menor;
-            for(int numVolta = 0; numVolta < nProductes -1; numVolta++)
-            {
-                menor = numVolta;
-
-                for(int i = numVolta +1; i < nProductes; i++)
-                {
-                    if (preusProductes[menor] > preusProductes[i])
-                    {
-                        menor = i;
-                    }
-                }
-                if(menor != numVolta)
-                {
-                    double aux = preusProductes[menor];
-                    preusProductes[menor] = preusProductes[numVolta];
-                    preusProductes[numVolta] = aux;
-                }
-            }
-            for(int i = 0; i < nProductes; i++)
-            {
-                Console.WriteLine(preusProductes[i]);
-            }
         }
     }
 }
