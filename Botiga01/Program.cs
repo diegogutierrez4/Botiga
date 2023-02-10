@@ -10,6 +10,7 @@
             string[] productesBotiga = new string[2];
             double[] preusProdutes = new double[2];
             int nProductes = 0;
+            double cartera = 104.23;
 
             Menu();
 
@@ -18,7 +19,7 @@
             //Neteja la pantalla.
             Console.Clear();
 
-            SwitchOpcio(opcio, productesBotiga, preusProdutes, nProductes);
+            SwitchOpcio(opcio, productesBotiga, preusProdutes, nProductes, cartera);
         }
         static void Menu()
         {
@@ -28,7 +29,7 @@
             Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.Write("\n\n   Introdueix l'opció a realitzar: ");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        static void SwitchOpcio(string opcio, string[] productesBotiga, double[] preusProductes, int nProductes)
+        static void SwitchOpcio(string opcio, string[] productesBotiga, double[] preusProductes, int nProductes, double cartera)
         {
             while (opcio != "q")
             {
@@ -81,10 +82,7 @@
                         MostrarProductes(productesBotiga, preusProductes, nProductes);
                         break;
                     case "c":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t\t  CISTELLA\n");
-                        Console.ForegroundColor = ConsoleColor.White;
-
-                        Cistella();
+                        Cistella(cartera, productesBotiga, preusProductes, nProductes);
                         break;
                     case "q":
                         Environment.Exit(0);
@@ -99,7 +97,7 @@
 
                 //Tornar al menú.
                 Menu();
-                opcio = Console.ReadLine();
+                opcio = Console.ReadLine().ToLower();
                 Console.Clear();
             }
         }
@@ -285,9 +283,72 @@
         }
 
         //CISTELLA
-        static void Cistella()
+        static void Cistella(double cartera, string[] productesBotiga, double[] preusProductes, int nProductes)
         {
-            Console.WriteLine("\n\t  PATATAS");
+            MenuCistella();
+            string opcio = Console.ReadLine().ToLower();
+
+            //Neteja la pantalla.
+            Console.Clear();
+
+            SwitchOpcioCistella(opcio, productesBotiga, preusProductes, nProductes, cartera);
+        }
+        static void MenuCistella()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine("\n\n\n\t\t   CISTELLA");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n\n\t1. COMPRAR PRODUCTES.\n\t2. ORDENAR CISTELLA.\n\t3. MOSTRAR TICKET.\n\n\t'Q'. Exit!.");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.Write("\n\n   Introdueix l'opció a realitzar: ");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        static void SwitchOpcioCistella(string opcio, string[] productesBotiga, double[] preusProductes, int nProductes, double cartera)
+        {
+            while (opcio != "q")
+            {
+                switch (opcio)
+                {
+                    case "1":
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t    COMPRAR PRODUCTES\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        ComprarProducte(productesBotiga, preusProductes, nProductes);
+                        break;
+                    case "2":
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       ORDENAR CISTELLA\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        AmpliarBotiga(ref productesBotiga, ref preusProductes, nProductes);
+                        break;
+                    case "3":
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MOSTRAR TICKET\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        ModificarPreu(ref productesBotiga, ref preusProductes);
+                        break;
+                    case "q":
+                        Menu();
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("\n\n\t Aquesta opció no és vàlida!");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                }
+                //Crida al mètode 'BarraDeCarrega' per obrir la barra de càrrega que s'executará després de finalitzar una opció.
+                BarraDeCarrega();
+
+                //Tornar al menú.
+                MenuCistella();
+                opcio = Console.ReadLine().ToLower();
+                Console.Clear();
+            }
+        }
+        static void ComprarProducte(string[] productesBotiga, double[] preusProductes, int nProductes)
+        {
+            Console.WriteLine("Llistat de productes: " + "\n");
+            for (int i = 0; i < nProductes; i++)
+            {
+                Console.WriteLine(productesBotiga[i] + " -> " + preusProductes[i] + "$");
+            }
         }
     }
 }
