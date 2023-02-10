@@ -1,4 +1,6 @@
-﻿namespace Botiga01
+﻿using System.Xml.Linq;
+
+namespace Botiga01
 {
     internal class Program
     {
@@ -11,6 +13,7 @@
             double[] preusProdutes = new double[2];
             int nProductes = 0;
             double cartera = 104.23;
+            int espaiCistella = 4;
 
             Menu();
 
@@ -19,7 +22,7 @@
             //Neteja la pantalla.
             Console.Clear();
 
-            SwitchOpcio(opcio, productesBotiga, preusProdutes, nProductes, cartera);
+            SwitchOpcio(opcio, productesBotiga, preusProdutes, nProductes, espaiCistella, cartera);
         }
         static void Menu()
         {
@@ -29,7 +32,7 @@
             Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.Write("\n\n   Introdueix l'opció a realitzar: ");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        static void SwitchOpcio(string opcio, string[] productesBotiga, double[] preusProductes, int nProductes, double cartera)
+        static void SwitchOpcio(string opcio, string[] productesBotiga, double[] preusProductes, int nProductes, int espaiCistella, double cartera)
         {
             while (opcio != "q")
             {
@@ -82,7 +85,7 @@
                         MostrarProductes(productesBotiga, preusProductes, nProductes);
                         break;
                     case "c":
-                        Cistella(cartera, productesBotiga, preusProductes, nProductes);
+                        Cistella(productesBotiga, preusProductes, nProductes, espaiCistella, cartera);
                         break;
                     case "q":
                         Environment.Exit(0);
@@ -283,15 +286,18 @@
         }
 
         //CISTELLA
-        static void Cistella(double cartera, string[] productesBotiga, double[] preusProductes, int nProductes)
+        static void Cistella(string[] productesBotiga, double[] preusProductes, int nProductes, int espaiCistella, double cartera)
         {
+            string[] productesCistella = new string[espaiCistella];
+            int[] quantitats = new int[espaiCistella];
+
             MenuCistella();
             string opcio = Console.ReadLine().ToLower();
 
             //Neteja la pantalla.
             Console.Clear();
 
-            SwitchOpcioCistella(opcio, productesBotiga, preusProductes, nProductes, cartera);
+            SwitchOpcioCistella(opcio, productesBotiga, nProductes, preusProductes, espaiCistella, cartera, productesCistella, quantitats);
         }
         static void MenuCistella()
         {
@@ -301,29 +307,36 @@
             Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.Write("\n\n   Introdueix l'opció a realitzar: ");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        static void SwitchOpcioCistella(string opcio, string[] productesBotiga, double[] preusProductes, int nProductes, double cartera)
+        static void SwitchOpcioCistella(string opcio, string[] productesBotiga, int nProductes, double[] preusProductes, int espaiCistella, double cartera, string[] productesCistella, int[] quantitats)
         {
             while (opcio != "q")
             {
                 switch (opcio)
                 {
                     case "1":
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t    COMPRAR PRODUCTES\n");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t    COMPRAR PRODUCTES");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        ComprarProducte(productesBotiga, preusProductes, nProductes);
+                        Console.WriteLine("\nEspai de la cistella: " + espaiCistella);
+
+                        if(nProductes < 1)
+                        {
+                            Console.Write("\n      Botiga buida, afegeix productes!");
+                            Thread.Sleep(2222);
+                            Console.Clear();
+                        }
+                        else
+                            Comprar(productesBotiga, preusProductes, nProductes, ref espaiCistella, ref cartera, productesCistella, quantitats);
                         break;
                     case "2":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       ORDENAR CISTELLA\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        AmpliarBotiga(ref productesBotiga, ref preusProductes, nProductes);
                         break;
                     case "3":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MOSTRAR TICKET\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        ModificarPreu(ref productesBotiga, ref preusProductes);
                         break;
                     case "q":
                         Menu();
@@ -342,13 +355,80 @@
                 Console.Clear();
             }
         }
-        static void ComprarProducte(string[] productesBotiga, double[] preusProductes, int nProductes)
+        static void SeleccionarProducte(string[] productesBotiga, double[] preusProductes, int nProductes)
         {
             Console.WriteLine("Llistat de productes: " + "\n");
             for (int i = 0; i < nProductes; i++)
             {
                 Console.WriteLine(productesBotiga[i] + " -> " + preusProductes[i] + "$");
             }
+    }
+        static void Comprar(string[] productesBotiga, double[] preusProductes, int nProductes, ref int espaiCistella, ref double cartera, string[] productesCistella, int[] quantitats)
+        {
+            string sortir = "";
+            int nProductesCistella = 0;
+            for (int i = 0; sortir != "s"; i++)
+            {
+                Console.WriteLine("Selecciona un producte de la botiga:\n");
+
+                for (int j = 0; j < nProductes; j++)
+                {
+                    Console.WriteLine("\t" + (j + 1) + ") " + productesBotiga[j] + " - " + preusProductes[j] + "$");
+                }
+                Console.Write("\nNº producte: ");
+                int opcio = Convert.ToInt32(Console.ReadLine());
+                string producteSeleccionat = productesBotiga[opcio - 1];
+                double preuSeleccionat = preusProductes[opcio - 1];
+
+                Console.Write($"Quantitat de '{producteSeleccionat}': ");
+                int quantitat = Convert.ToInt32(Console.ReadLine());
+
+                if (cartera >= preuSeleccionat * quantitat)
+                {
+                    if (nProductesCistella + quantitat <= espaiCistella)
+                    {
+                        productesCistella[i] = producteSeleccionat;
+                        quantitats[i] = quantitat;
+                        cartera -= preuSeleccionat * quantitat;
+                        nProductesCistella += quantitat;
+                        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("       Producte afegit correctament!\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("    No hi ha prou espai a la cistella!\n");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("\n\t  No tens prou diners!\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.WriteLine("Espai disponible a la cistella: " + (espaiCistella - nProductesCistella));
+                Console.WriteLine($"Cartera: {cartera}$");
+                Console.Write("Sortir (s/n)? ");
+                sortir = Console.ReadLine().ToLower();
+                Console.WriteLine();
+            }
+        }
+        static string MostrarTiket(string[] productesCistella, int[] quantitats, string[] productesBotiga, int[] preusProductes)
+        {
+            string ticket = "Producte\tQuantitat\tPreu unitari\tPreu total\n";
+            double preuTotal = 0;
+
+            for (int i = 0; i < productesCistella.Length; i++)
+            {
+                int indexProducte = Array.IndexOf(productesBotiga, productesCistella[i]);
+                double preuUnitari = preusProductes[indexProducte];
+                double preu = preuUnitari * quantitats[i];
+                preuTotal += preu;
+
+                ticket += productesCistella[i] + "\t" + quantitats[i] + "\t\t" + preuUnitari + "\t\t" + preu + "\n";
+            }
+
+            ticket += "Preu total: " + preuTotal;
+            return ticket;
         }
     }
 }
