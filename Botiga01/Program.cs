@@ -71,7 +71,7 @@
                         Console.ForegroundColor = ConsoleColor.DarkGreen; Console.WriteLine("\n\tPreus ordenats correctament!");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        Console.WriteLine("Preus ordenats:");
+                        Console.WriteLine("\nPreus ordenats:\n");
                         OrdenaPreus(preusProductes, nProductes);
                         break;
                     case "7":
@@ -171,43 +171,43 @@
             }
             Array.Resize(ref productesBotiga, nouSizeBotiga);
             Array.Resize(ref preusProductes, nouSizeBotiga);
-
-            Console.WriteLine();
             Console.WriteLine("Nova mida de la botiga: " + productesBotiga.Length + " productes.");
         }
         //Opció 3:
         static void ModificarPreu(ref string[] productesBotiga, ref double[] preusProductes)
         {
-            Console.WriteLine("Nom del producte per modificar el preu: ");
+            Console.Write("Nom del producte a modificar: ");
             string producteModificar = Console.ReadLine();
+            producteModificar = producteModificar.Substring(0, 1).ToUpper() + producteModificar.Substring(1).ToLower();
 
             for (int i = 0; i < productesBotiga.Length; i++)
             {
                 if (productesBotiga[i] == producteModificar)
                 {
-                    Console.WriteLine("Nou preu: ");
+                    Console.Write("Nou preu: ");
                     double nouPreu = Convert.ToDouble(Console.ReadLine());
                     preusProductes[i] = nouPreu;
 
-                    Console.WriteLine($"S'ha modificat el preu de {producteModificar} a {nouPreu}$.");
+                    Console.WriteLine($"\nS'ha modificat el preu de '{producteModificar}' a {nouPreu}$.");
                 }
             }
         }
         //Opció 4:
         static void ModificarProducte(ref string[] productesBotiga)
         {
-            Console.WriteLine("Nom del producte a modificar: ");
+            Console.Write("Nom del producte a modificar: ");
             string producteModificar = Console.ReadLine();
+            producteModificar = producteModificar.Substring(0, 1).ToUpper() + producteModificar.Substring(1).ToLower();
 
             for (int i = 0; i < productesBotiga.Length; i++)
             {
                 if (productesBotiga[i] == producteModificar)
                 {
-                    Console.WriteLine("Nou nom: ");
+                    Console.Write("Nou nom: ");
                     string nouNom = Console.ReadLine();
                     productesBotiga[i] = nouNom;
 
-                    Console.WriteLine($"S'ha modificat el nom de {producteModificar} a {nouNom}.");
+                    Console.WriteLine($"\nS'ha modificat el nom de '{producteModificar}' a {nouNom}.");
                 }
             }
         }
@@ -234,7 +234,7 @@
             }
             Console.WriteLine("\nProductes ordenats:\n");
 
-            for (int i = 0; i < productesBotiga.Length; i++)
+            for (int i = 0; i < nProductes; i++)
             {
                 Console.WriteLine($"Nom: {productesBotiga[i]}\tPreu: {preusProductes[i]}$");
             }
