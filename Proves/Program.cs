@@ -44,7 +44,7 @@
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       AMPLIAR BOTIGA\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        AmpliarBotiga(ref productesBotiga, ref preusProductes);
+                        AmpliarBotiga(ref productesBotiga, ref preusProductes, nProductes);
                         break;
                     case "3":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MODIFICAR PREU\n");
@@ -126,7 +126,7 @@
 
                 if (respostaAmpliarBotiga == 's' || respostaAmpliarBotiga == 'S')
                 {
-                    AmpliarBotiga(ref productesBotiga, ref preusProductes);
+                    AmpliarBotiga(ref productesBotiga, ref preusProductes, nProductes);
                     Console.Clear();
                     Menu();
                 }
@@ -154,15 +154,24 @@
             }
         }
         //Opció 2:
-        static void AmpliarBotiga(ref string[] productesBotiga, ref double[] preusProductes)
+        static void AmpliarBotiga(ref string[] productesBotiga, ref double[] preusProductes, int nProductes)
         {
             Console.WriteLine("Mida actual de la botiga: " + productesBotiga.Length + " productes");
             Console.Write("Ingresa la nova mida: ");
             int nouSizeBotiga = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
 
+            while (nouSizeBotiga < nProductes)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("Mida inferior a la quantitat de productes.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Ingresa la nova mida: ");
+                nouSizeBotiga = Convert.ToInt32(Console.ReadLine());
+            }
             Array.Resize(ref productesBotiga, nouSizeBotiga);
             Array.Resize(ref preusProductes, nouSizeBotiga);
 
+            Console.WriteLine();
             Console.WriteLine("Nova mida de la botiga: " + productesBotiga.Length + " productes.");
         }
         //Opció 3:
