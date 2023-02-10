@@ -9,7 +9,7 @@
             string opcio;
             string[] productesBotiga = new string[2];
             double[] preusProdutes = new double[2];
-            int nProductes = 0;
+            int nProductes = 0, diners = 10, cistella=2;
 
             Menu();
 
@@ -291,6 +291,8 @@
             for (int i = 0; i < nProductes; i++)
             {
                 Console.WriteLine(productesBotiga[i] + " -> " + preusProductes[i] + "$");
+
+
             }
 
         }
