@@ -143,6 +143,7 @@
             {
                 Console.Write("Nom del producte: ");
                 string producteAfegir = Console.ReadLine();
+                producteAfegir = producteAfegir.Substring(0,1).ToUpper() + producteAfegir.Substring(1).ToLower();
                 productesBotiga[nProductes] = producteAfegir;
                 Console.WriteLine();
 
