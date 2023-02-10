@@ -317,8 +317,7 @@ namespace Botiga01
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t    COMPRAR PRODUCTES");
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        Console.WriteLine("\nEspai de la cistella: " + espaiCistella);
-
+                        Console.WriteLine("\nEspai de la cistella: " + espaiCistella)
                         if(nProductes < 1)
                         {
                             Console.Write("\n      Botiga buida, afegeix productes!");
@@ -331,12 +330,13 @@ namespace Botiga01
                     case "2":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       ORDENAR CISTELLA\n");
                         Console.ForegroundColor = ConsoleColor.White;
-
+                        //PENDENT
                         break;
                     case "3":
                         Console.ForegroundColor = ConsoleColor.DarkMagenta; Console.WriteLine("\n\n\t       MOSTRAR TICKET\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
+                        MostrarTicket(productesCistella, quantitats, productesBotiga, preusProductes);
                         break;
                     case "q":
                         Menu();
@@ -412,23 +412,23 @@ namespace Botiga01
                 Console.WriteLine();
             }
         }
-        static string MostrarTiket(string[] productesCistella, int[] quantitats, string[] productesBotiga, int[] preusProductes)
+        static void MostrarTicket(string[] productesCistella, int[] quantitats, string[] productesBotiga, double[] preusProductes)
         {
-            string ticket = "Producte\tQuantitat\tPreu unitari\tPreu total\n";
+            Console.WriteLine("Ticket de compra:\n");
             double preuTotal = 0;
 
             for (int i = 0; i < productesCistella.Length; i++)
             {
-                int indexProducte = Array.IndexOf(productesBotiga, productesCistella[i]);
-                double preuUnitari = preusProductes[indexProducte];
-                double preu = preuUnitari * quantitats[i];
-                preuTotal += preu;
-
-                ticket += productesCistella[i] + "\t" + quantitats[i] + "\t\t" + preuUnitari + "\t\t" + preu + "\n";
+                if (productesCistella[i] != null)
+                {
+                    int index = Array.IndexOf(productesBotiga, productesCistella[i]);
+                    double preuUnitari = preusProductes[index];
+                    double preu = preuUnitari * quantitats[i];
+                    Console.WriteLine("\t" + productesCistella[i] + " - " + quantitats[i] + " x " + preuUnitari + "$ = " + preu + "$");
+                    preuTotal += preu;
+                }
             }
-
-            ticket += "Preu total: " + preuTotal;
-            return ticket;
+            Console.WriteLine("\nPreu total: " + preuTotal + "$");
         }
     }
 }
