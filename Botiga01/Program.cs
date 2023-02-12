@@ -397,7 +397,7 @@ namespace Botiga01
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("    No hi ha prou espai a la cistella!\n");
+                        Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("\n    No hi ha prou espai a la cistella!\n");
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("Vols ampliar-la (s/n)? ");
                         string ampliar = Console.ReadLine().ToLower();
@@ -414,7 +414,7 @@ namespace Botiga01
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("\n\t  No tens prous diners!\n");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("Vols ingresar diners (s/n)? ");
+                    Console.Write("Vols ingresar diners (s/n)? ");
                     string ingresar = Console.ReadLine().ToLower();
 
                     if (ingresar == "s")
